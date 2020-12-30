@@ -17,3 +17,4 @@
 
 # to prevent the file
 task-list 
+*.db

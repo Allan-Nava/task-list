@@ -6,11 +6,31 @@ import(
 	"github.com/gorilla/mux"
 	"time"
 	"log"
+	"gorm.io/gorm"
+	"gorm.io/driver/sqlite"
 )
-
+/*
+* task structure
+*/
+type Task struct {
+	gorm.Model
+	id  uint
+	name string
+	done bool
+}
+//
+// Main method for go
 func main()  {
 	fmt.Print("start main task list")
-	
+	db, err := gorm.Open(sqlite.Open("task-list.db"), &gorm.Config{})
+	//
+	if err != nil {
+		panic("failed to connect database")
+	}
+	//
+	// Migrate the schema
+	db.AutoMigrate(&Task{})
+	//
 	r := mux.NewRouter()
     //r.HandleFunc("/", HomeHandler)
     //r.HandleFunc("/products", ProductsHandler)
@@ -26,4 +46,5 @@ func main()  {
 	}
 
 	log.Fatal(srv.ListenAndServe())
+	//
 }
