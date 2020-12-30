@@ -9,7 +9,7 @@ import(
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
 )
-/*
+/****
 * task structure
 */
 type Task struct {
@@ -30,6 +30,8 @@ func main()  {
 	//
 	// Migrate the schema
 	db.AutoMigrate(&Task{})
+	// Create
+	db.Create(&Task{id: 1, name: "test", done: false })
 	//
 	r := mux.NewRouter()
     //r.HandleFunc("/", HomeHandler)
