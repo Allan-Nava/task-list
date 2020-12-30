@@ -9,9 +9,8 @@ import(
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
 )
-/****
-* task structure
-*/
+//
+//task structure
 type Task struct {
 	gorm.Model
 	id  uint
