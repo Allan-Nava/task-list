@@ -9,7 +9,7 @@ import(
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
 )
-//
+
 //task structure
 type Task struct {
 	gorm.Model
@@ -23,14 +23,21 @@ func main()  {
 	fmt.Print("start main task list")
 	db, err := gorm.Open(sqlite.Open("task-list.db"), &gorm.Config{})
 	//
+	fmt.Print("err = ", err)
 	if err != nil {
+		fmt.Print("failed to connect")
 		panic("failed to connect database")
 	}
 	//
 	// Migrate the schema
 	db.AutoMigrate(&Task{})
+	//
+	task := Task{id: 1, name: "test", done: false }
+	//
+	log.Print("task = ", task)
 	// Create
-	db.Create(&Task{id: 1, name: "test", done: false })
+	result := db.Create(&task)
+	fmt.Print("result.RowsAffected " , result)
 	//
 	r := mux.NewRouter()
     //r.HandleFunc("/", HomeHandler)
