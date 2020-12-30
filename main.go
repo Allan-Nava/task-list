@@ -13,7 +13,7 @@ import(
 //task structure
 type Task struct {
 	gorm.Model
-	id  uint
+	id  uint `gorm:"primaryKey"`
 	name string
 	done bool
 }
@@ -23,7 +23,7 @@ func main()  {
 	fmt.Print("start main task list")
 	db, err := gorm.Open(sqlite.Open("task-list.db"), &gorm.Config{})
 	//
-	fmt.Print("err = ", err)
+	fmt.Print("db = ", db)
 	if err != nil {
 		fmt.Print("failed to connect")
 		panic("failed to connect database")
