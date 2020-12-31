@@ -20,10 +20,10 @@ type Task struct {
 //
 // Main method for go
 func main()  {
-	fmt.Print("start main task list")
+	fmt.Print("start main task list \n")
 	db, err := gorm.Open(sqlite.Open("task-list.sqlite"), &gorm.Config{})
 	//
-	fmt.Print("db = ", db)
+	fmt.Print("\n db = ", db)
 	if err != nil {
 		fmt.Print("failed to connect")
 		panic("failed to connect database")
@@ -34,7 +34,7 @@ func main()  {
 	//
 	task := Task{id: 1, name: "test", done: false }
 	//
-	log.Print("task = ", task)
+	fmt.Print("\n task = ", task)
 	// Create
 	result := db.Create(&task)
 	fmt.Print("result.RowsAffected " , result)
