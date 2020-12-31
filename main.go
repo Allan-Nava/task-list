@@ -9,7 +9,6 @@ import(
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
 	"io"
-	"io/ioutil"
 	"encoding/json"
 )
 //
@@ -19,9 +18,9 @@ var err error
 // task structure
 type Task struct {
 	gorm.Model
-	id  uint `gorm:"primaryKey"`
-	name string
-	done bool
+	id  uint 	`gorm:"primaryKey"`
+	name string `json:"name"`
+	done bool    `json:"done"`
 }
 //
 // Main method for go
@@ -57,11 +56,16 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 func createNewTask(w http.ResponseWriter, r *http.Request) {
     // get the body of our POST request
     // return the string response containing the request body
-    reqBody, _ := ioutil.ReadAll(r.Body)
-    var task Task
-    json.Unmarshal(reqBody, &task)
+    //reqBody, _ := ioutil.ReadAll(r.Body)
+    //var task Task
+	//json.Unmarshal(reqBody, &task)
+	r.ParseForm()
+	name := r.FormValue("name")
+	//done := r.FormValue("done")
+	task := Task{ name: name }
+    //fmt.Println("Endpoint Hit: Creating New Task ", task, " name ", name )
     db.Create(&task) 
-    fmt.Println("Endpoint Hit: Creating New Task")
+    fmt.Println("Endpoint Hit: Creating New Task ", task )
     json.NewEncoder(w).Encode(task)
 }
 
