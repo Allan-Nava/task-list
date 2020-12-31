@@ -27,7 +27,7 @@ type Task struct {
 // Main method for go
 func main()  {
 	//fmt.Println("start main task list \n")
-	db, err := gorm.Open(sqlite.Open("task-list.sqlite"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open("task-list.sqlite"), &gorm.Config{})
 	//
 	//mt.Print("\n db = ", db)
 	if err != nil {
