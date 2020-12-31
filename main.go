@@ -8,9 +8,10 @@ import(
 	"log"
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
+    "io"
 )
 
-//task structure
+// task structure
 type Task struct {
 	gorm.Model
 	id  uint `gorm:"primaryKey"`
@@ -32,17 +33,12 @@ func main()  {
 	// Migrate the schema
 	db.AutoMigrate(&Task{})
 	//
-	task := Task{id: 1, name: "test", done: false }
-	//
-	fmt.Print("\n task = ", task)
-	// Create
-	result := db.Create(&task)
-	fmt.Print("result.RowsAffected " , result)
 	//
 	r := mux.NewRouter()
     //r.HandleFunc("/", HomeHandler)
     //r.HandleFunc("/products", ProductsHandler)
-    //r.HandleFunc("/articles", ArticlesHandler)
+	//r.HandleFunc("/articles", ArticlesHandler)
+	r.HandleFunc("/health", HealthCheckHandler )
 	http.Handle("/", r)
 	//
 	srv := &http.Server{
@@ -55,4 +51,32 @@ func main()  {
 
 	log.Fatal(srv.ListenAndServe())
 	//
+}
+//
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+    // A very simple health check.
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+
+    // In the future we could report back on the status of our DB, or our cache
+    // (e.g. Redis) by performing a simple PING, and include them in the response.
+    io.WriteString(w, `{"alive": true}`)
+}
+//
+func CreateTaskHandler(w http.ResponseWriter, r *http.Request){
+
+    // A very simple health check.
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+	// need to be reformated the code
+	//task := Task{id: 1, name: "test", done: false }
+	//
+	//fmt.Print("\n task = ", task)
+	// Create
+	//result := db.Create(&task)
+	//fmt.Print("\n result.RowsAffected " , result)
+	//
+    // In the future we could report back on the status of our DB, or our cache
+    // (e.g. Redis) by performing a simple PING, and include them in the response.
+    io.WriteString(w, `{"task": created }`)
 }

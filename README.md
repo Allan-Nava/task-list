@@ -6,6 +6,4 @@ It use:
 
 1. https://gorm.io/docs/ ( go orm )
 2. https://github.com/gorilla/mux ( router )
-
-
-https://github.com/oauth2-proxy/oauth2-proxy
+3. https://github.com/oauth2-proxy/oauth2-proxy (for authentication)
