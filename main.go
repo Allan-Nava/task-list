@@ -21,8 +21,8 @@ var err error
 type Task struct {
 	gorm.Model
 	id  uint 	`gorm:"primaryKey"`
-	name string `json:"name"`
-	done bool    `json:"done"`
+	Name string `json:"name"`
+	Done bool    `json:"done"`
 }
 //
 // Main method for go
@@ -64,7 +64,7 @@ func createNewTask(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	name := r.FormValue("name")
 	//done := r.FormValue("done")
-	task := Task{ name: name }
+	task := Task{ Name: name }
     //fmt.Println("Endpoint Hit: Creating New Task ", task, " name ", name )
     db.Create(&task) 
     fmt.Println("Endpoint Hit: Creating New Task ", task )
