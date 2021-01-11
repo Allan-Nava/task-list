@@ -92,6 +92,12 @@ func TaskHandler(w http.ResponseWriter, r *http.Request){
 	var task Task
 	//tasks := []Task{}
 	db.Find(&task, "id")
+	//
+	r.ParseForm()
+	name := r.FormValue("name")
+	task.Name = name
+	db.Save(task)
+	//
 	json.NewEncoder(w).Encode(task)
 }
    
@@ -100,11 +106,10 @@ func TaskDeleteHandler( w http.ResponseWriter, r *http.Request ){
 	params := mux.Vars(r)
 	id := params["id"]
 	fmt.Println("id ", id)
-	var task Task
 	//tasks := []Task{}
-	db.Find(&task, "id")
+	db.Delete(&Task{}, id)
 	//db.Delete()
-	json.NewEncoder(w).Encode(task)
+	json.NewEncoder(w).Encode("{'response': 'success'}")
 }
 
 //
@@ -113,12 +118,10 @@ func TaskUpdateHandler( w http.ResponseWriter, r *http.Request ){
 	params := mux.Vars(r)
 	id := params["id"]
 	fmt.Println("id ", id)
-	//var task Task
-	//tasks := []Task{}
-	//db.Find(&task, "id")
-	db.Delete(&Task{}, 10)
-	//db.Delete()
-	json.NewEncoder(w).Encode("{'response': 'success'}")
+	var task Task
+	db.Find(&task, "id")
+	task
+	json.NewEncoder(w).Encode(task)
 }
 //
 // handle function
