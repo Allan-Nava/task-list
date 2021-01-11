@@ -83,7 +83,7 @@ func returnAllTasks(w http.ResponseWriter, r *http.Request){
 	fmt.Println("Endpoint Hit: returnAllTasks")
 	json.NewEncoder(w).Encode(tasks)
 }
-
+//
 func TaskHandler(w http.ResponseWriter, r *http.Request){
 	fmt.Println(" returnTask")
 	params := mux.Vars(r)
@@ -95,6 +95,32 @@ func TaskHandler(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(task)
 }
    
+func TaskDeleteHandler( w http.ResponseWriter, r *http.Request ){
+	fmt.Println(" TaskDeleteHandler")
+	params := mux.Vars(r)
+	id := params["id"]
+	fmt.Println("id ", id)
+	var task Task
+	//tasks := []Task{}
+	db.Find(&task, "id")
+	//db.Delete()
+	json.NewEncoder(w).Encode(task)
+}
+
+//
+func TaskUpdateHandler( w http.ResponseWriter, r *http.Request ){
+	fmt.Println(" TaskUpdateHandler")
+	params := mux.Vars(r)
+	id := params["id"]
+	fmt.Println("id ", id)
+	//var task Task
+	//tasks := []Task{}
+	//db.Find(&task, "id")
+	db.Delete(&Task{}, 10)
+	//db.Delete()
+	json.NewEncoder(w).Encode("{'response': 'success'}")
+}
+//
 // handle function
 func handleRequests(){
     log.Println("Starting development server at http://127.0.0.1:8000/")
@@ -106,6 +132,8 @@ func handleRequests(){
 	r.HandleFunc("/all", returnAllTasks )
 	r.HandleFunc("/health", HealthCheckHandler )
 	r.HandleFunc("/task/{id:[0-9]+}", TaskHandler)
+	r.HandleFunc("/task-delete/{id:[0-9]+}", TaskDeleteHandler) // need to be use the same routing but differente methods like DELETE
+	r.HandleFunc("/task-update/{id:[0-9]+}", TaskUpdateHandler) // need to be use the same routing but differente methods like PUT
 	http.Handle("/", r)
 	//
 	srv := &http.Server{
