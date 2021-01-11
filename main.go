@@ -1,16 +1,18 @@
 package main
 
-import(
-	"fmt"
-	"net/http"
-	"github.com/gorilla/mux"
-	"time"
-	"log"
-	"gorm.io/gorm"
-	"gorm.io/driver/sqlite"
-	"io"
+import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/gorilla/mux"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
+
 //
 var db *gorm.DB
 var err error
@@ -81,8 +83,19 @@ func returnAllTasks(w http.ResponseWriter, r *http.Request){
 	fmt.Println("Endpoint Hit: returnAllTasks")
 	json.NewEncoder(w).Encode(tasks)
 }
-   
 
+func TaskHandler(w http.ResponseWriter, r *http.Request){
+	fmt.Println(" returnTask")
+	params := mux.Vars(r)
+	id := params["id"]
+	fmt.Println("id ", id)
+	var task Task
+	//tasks := []Task{}
+	db.Find(&task, "id")
+	json.NewEncoder(w).Encode(task)
+}
+   
+// handle function
 func handleRequests(){
     log.Println("Starting development server at http://127.0.0.1:8000/")
     log.Println("Quit the server with CONTROL-C.")
@@ -92,6 +105,7 @@ func handleRequests(){
 	r.HandleFunc("/create", createNewTask).Methods("POST")
 	r.HandleFunc("/all", returnAllTasks )
 	r.HandleFunc("/health", HealthCheckHandler )
+	r.HandleFunc("/task/{id:[0-9]+}", TaskHandler)
 	http.Handle("/", r)
 	//
 	srv := &http.Server{
