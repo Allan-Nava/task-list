@@ -1,4 +1,5 @@
 # Task-List
+![Go](https://github.com/Allan-Nava/task-list/workflows/Go/badge.svg)
 
 Simple task list in Go Lang
 
