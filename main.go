@@ -120,7 +120,6 @@ func TaskUpdateHandler( w http.ResponseWriter, r *http.Request ){
 	fmt.Println("id ", id)
 	var task Task
 	db.Find(&task, "id")
-	task
 	json.NewEncoder(w).Encode(task)
 }
 //
